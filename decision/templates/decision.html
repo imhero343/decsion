@@ -1,0 +1,196 @@
+{% extends "base.html" %} {% block content %}
+<style>
+  p {
+    word-break: break-all;
+    white-space: normal;
+}
+
+  #snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #1f2937;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    top: 30px;
+    font-size: 17px;
+    border-radius: 10px;
+  }
+  
+  #snackbar.show {
+    visibility: visible;
+    
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+  
+  @-webkit-keyframes fadein {
+    from {top: 0; opacity: 0;} 
+    to {top: 30px; opacity: 1;}
+  }
+  
+  @keyframes fadein {
+    from {top: 0; opacity: 0;}
+    to {top: 30px; opacity: 1;}
+  }
+  
+  @-webkit-keyframes fadeout {
+    from {top: 30px; opacity: 1;} 
+    to {top: 0; opacity: 0;}
+  }
+  
+  @keyframes fadeout {
+    from {top: 30px; opacity: 1;}
+    to {top: 0; opacity: 0;}
+  }
+</style>
+<div class="bg-gray-50 dark:bg-gray-900 md:h-full lg:mb-14">
+  
+  <div class="flex flex-col py-8 px-4 mx-auto py-20">
+    <a href="{% url 'meetingdetail' meeting.uuid %}">
+      <button type="button" class="text-white p-2 mb-4 bg-blue-700 border border-gray-100 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-3.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+      </button>
+     </a>
+    <div class=" p-2 mb-4 bg-white border border-blue-200 rounded-lg shadow dark:bg-gray-800 dark:border-blue-500">
+
+      <h5 class=" text-2xl  px-4 font-medium tracking-tight text-gray-900 dark:text-white mb-2">
+          صفحة المقرر
+      </h5>
+
+  <h6 class="text-xl px-2 py-2 font-medium tracking-tight text-gray-900 dark:text-white  ">
+    العنوان :
+  </h6>
+<p class="text-md px-4 opacity-75 font-medium  text-gray-900 dark:text-white">
+  {{ decision.name }}
+</p>
+
+<hr
+  class="my-2 h-0.5 border-t-0  opacity-25 bg-blue-500 opacity-100 dark:opacity-50" />
+  <h6 class=" whitespace-nowrap pb-2 text-xl px-4 font-medium tracking-tight text-gray-900 dark:text-white  ">
+    تاريخ المقرر : 
+  </h6>
+<h6 class="text-md px-4 font-medium opacity-75 tracking-tight text-gray-900 dark:text-white">
+  {{ decision.date }}
+</h6>
+<hr
+  class="my-2 h-0.5 border-t-0  opacity-25 bg-blue-500 opacity-100 dark:opacity-50" />
+  <h6 class=" whitespace-nowrap pb-2 text-xl px-4 font-medium tracking-tight text-gray-900 dark:text-white  ">
+    تاريخ البدا بالعمل :
+  </h6>
+<h6 class="text-md px-4 font-medium opacity-75 tracking-tight text-gray-900 dark:text-white">
+  {{ decision.decision_date }}
+</h6>
+<hr
+  class="my-2 h-0.5 border-t-0  opacity-25 bg-blue-500 opacity-100 dark:opacity-50" />
+  <h6 class=" whitespace-nowrap pb-2 text-xl px-4 font-medium tracking-tight text-gray-900 dark:text-white  ">
+    تاريخ الانتهاء :
+  </h6>
+<h6 class="text-md px-4 font-medium opacity-75 tracking-tight text-gray-900 dark:text-white">
+  {{ decision.deadline }}
+</h6>
+<hr
+  class="my-2 h-0.5 border-t-0  opacity-25 bg-blue-500 opacity-100 dark:opacity-50" />
+  <h6 class=" whitespace-nowrap pb-2 text-xl px-4 font-medium tracking-tight text-gray-900 dark:text-white  ">
+   مسؤولين العمل :
+  </h6>
+  {% for i in responsible %}
+
+    <h6 class="text-md px-4 font-medium opacity-75 tracking-tight text-gray-900 dark:text-white">
+      {{ i }}
+    </h6>
+  {% endfor %}
+
+<hr
+  class="my-2 h-0.5 border-t-0  opacity-25 bg-blue-500 opacity-100 dark:opacity-50" />
+  <h6 class=" whitespace-nowrap pb-2 text-xl px-4 font-medium tracking-tight text-gray-900 dark:text-white  ">
+    متابعة العمل :
+  </h6>
+  {% for i in trailing %}
+    <h6 class="text-md px-4 font-medium opacity-75 tracking-tight text-gray-900 dark:text-white">
+      {{ i }}
+    </h6>
+  {% endfor %}
+  <hr
+  class="my-2 h-0.5 border-t-0  opacity-25 bg-blue-500 opacity-100 dark:opacity-50" />
+
+  <form  id="changedone" data-url="{% url 'change-done' decision.id %}">
+      {% csrf_token %}
+      <div class="flex items-center pl-4  rounded dark:border-gray-700  py-3">
+        <h6 class=" whitespace-nowrap pb-2 text-xl px-4 font-medium tracking-tight text-gray-900 dark:text-white  ">
+          تم انجاز المقرر:
+        </h6>
+        {% if decision.done %}
+        <input id="done" name="done" type="checkbox" checked="checked" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+        {% else %}
+        <input id="done" name="done" type="checkbox"  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+        {% endif %}
+
+    </div>  
+    <hr class="my-2 h-0.5 border-t-0  opacity-25 bg-blue-500 opacity-100 dark:opacity-50" />
+    <button type="submit"  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">حفظ التغيير</button>
+
+  </form>
+
+  </div>
+
+{% include "component/navbar.html" with url=request.get_full_path %}
+
+<!-- The actual snackbar -->
+<div  id="snackbar" >
+  <div class="p-4 border rounded-lg shadow border-blue-500"><p>تم تغيير حالة المقرر</p></div>
+</div>
+  </div>
+</div>
+<script>
+  function myFunction() {
+    var x = document.getElementById("snackbar");
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  }
+  // Get a reference to the form element
+const form = document.getElementById('changedone');
+
+// Add an event listener for the form submission event
+form.addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent the default form submission
+  // Retrieve the field values
+  const field1Value = document.getElementById('done').checked;
+  const url = form.getAttribute('data-url');
+  const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+  // Create the request payload
+  const payload = {
+    done: field1Value,
+  };
+
+  // Make the POST request using fetch
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrfToken,
+      'X-Requested-With': 'XMLHttpRequest', //Necessary to work with request.is_ajax()
+
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(response => response.json())
+  .then(data => {
+    
+    // Handle the response data
+    console.log(data);
+  })
+  .catch(error => {
+    // Handle any errors
+    console.error(error);
+  });
+  myFunction()
+});
+</script>
+
+{% endblock %}

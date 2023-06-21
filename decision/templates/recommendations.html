@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block content %}
+
+<section class="bg-gray-50 dark:bg-gray-900">
+  <div class="flex flex-col py-8 px-4 mx-auto h-screen">
+    <div class="max-w-sm p-2 mb-4 bg-white border border-blue-200 rounded-lg shadow dark:bg-gray-800 dark:border-blue-500">
+
+    <h5 class=" text-2xl  px-4 font-medium tracking-tight text-gray-900 dark:text-white">
+        صفحة التوصيات
+    </h5>
+</div>
+
+
+
+      {% for rec in recs %}
+    <div class="max-w p-6 mb-5 bg-white border border-blue-200 rounded-lg shadow dark:bg-gray-800 dark:border-blue-500">
+
+      <a
+        href="{% url 'recs-details'  rec.uuid %}"
+        aria-current="true"
+        class="text-xl block w-full px-4 py-1 text-white bg-blue-700  rounded-t-lg cursor-pointer dark:bg-gray-800 "
+      >
+      
+        {{ forloop.counter }}-
+        {{ rec.title }}
+        <p class=" font-normal text-gray-700 dark:text-gray-400">
+            {{ rec.date }}
+    
+            
+          </p>
+      </a>
+
+    </div>
+    {% endfor %}
+
+    {% include "component/navbar.html" with url=request.get_full_path %}
+  </div>
+</section>
+{% endblock %}

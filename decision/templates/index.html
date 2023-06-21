@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block content %}
+
+<section class="bg-gray-50 dark:bg-gray-900 p-10">
+  <div
+    class="flex flex-col px-0 md:px-4 md:py-6 mx-auto h-screen lg:py-0"
+  >
+    <body>
+
+      <div class=" p-6 bg-white max-w border border-blue-500 rounded-lg shadow dark:bg-gray-800 dark:border-blue-500 mb-8">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">الجلسات</h5>
+         
+            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+              يوجد في هذا القسم الجلسات وفي كل جلسة يوجد مقرراتك
+              
+            </p>
+ <a href="{% url 'meeting' %}">
+  <p class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-40	">ادخل للجلسات</p>
+ </a>
+    </div>
+    
+      <div class="max-w p-6 bg-white border border-blue-500 rounded-lg shadow dark:bg-gray-800 dark:border-blue-500">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">التوصيات</h5>
+         
+            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+              التوصيات تكون على شكل جلسات وفي كل جلسة مجموعة توصيات
+              
+            </p>
+            <a href="{% url 'recs' %}">
+              <p class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-40	">ادخل للتوصيات</p>
+            </a>
+
+    </div>
+    </div>
+    
+      {% include "component/navbar.html" with url=request.get_full_path %}
+    </body>
+  </div>
+</section>
+{% endblock %}
